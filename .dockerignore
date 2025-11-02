@@ -1,0 +1,34 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local virtual environments
+venv/
+.env
+*.env
+
+# Bytecode / cache
+*.log
+
+# Git / VCS
+.git
+.gitignore
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS junk
+.DS_Store
+
+# Docker metadata shouldn't be copied into the image
+Dockerfile
+docker-compose.yml
+
+# Test or temp files if any
+tests/
+tmp/
