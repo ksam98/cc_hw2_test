@@ -5,16 +5,16 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: flask
+      app: flask-app
   replicas: 1
   template:
     metadata:
       labels:
-        app: flask
+        app: flask-app
     spec:
       containers:
       - name: todo-app-flask
-        image: srk9068/todo-flask-mongo-app:1.0
+        image: srk9068/todo-flask-mongo-app:2.0
         ports:
         - containerPort: 5000
         env:
