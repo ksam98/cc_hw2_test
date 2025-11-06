@@ -1,8 +1,9 @@
-from flask import Flask, render_template,request,redirect,url_for # For flask implementation
+from flask import Flask, render_template,request,redirect,url_for, jsonify # For flask implementation
 from pymongo import MongoClient # Database connector
 from bson.objectid import ObjectId # For ObjectId to work
 from bson.errors import InvalidId # For catching InvalidId exception for ObjectId
 import os
+import time
 
 mongodb_host = os.environ.get('MONGO_HOST', 'localhost')
 mongodb_port = int(os.environ.get('MONGO_PORT', '27017'))
@@ -13,12 +14,24 @@ todos = db.todo #Select the collection
 app = Flask(__name__)
 title = "TODO with Flask"
 heading = "ToDo Reminder App Version 2.2 (we testing rolling updates!)"
+start_time = time.time()
 #modify=ObjectId()
 
 def redirect_url():
 	return request.args.get('next') or \
 		request.referrer or \
 		url_for('index')
+
+# NOTE: This is added for Part 7 to test K8s takes the appropriate action
+# for the configured liveness and readiness probes on failure
+#
+# This function is included in image with tag 'health_check' only
+@app.route("/health")
+def health():
+    # Healthy for first 30s after container start, then fail
+    if time.time() - start_time < 30:
+        return jsonify(status="ok", uptime=time.time() - start_time), 200
+    return jsonify(status="fail-after-30s", uptime=time.time() - start_time), 500
 
 @app.route("/list")
 def lists ():
