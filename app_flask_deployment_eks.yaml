@@ -3,7 +3,11 @@ kind: Deployment
 metadata:
   name: todo-app-flask-deployment
 spec:
-  replicas: 2
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: flask-app
@@ -14,7 +18,7 @@ spec:
     spec:
       containers:
       - name: todo-app-flask
-        image: srk9068/todo-flask-mongo-app:2.1
+        image: srk9068/todo-flask-mongo-app:2.2
         ports:
         - containerPort: 5000
         env:
